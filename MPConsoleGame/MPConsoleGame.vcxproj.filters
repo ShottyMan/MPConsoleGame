@@ -21,10 +21,19 @@
     <ClCompile Include="src\ConsoleMng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SpriteLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\ConsoleMng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\SpriteLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\TestSprite.txt" />
   </ItemGroup>
 </Project>

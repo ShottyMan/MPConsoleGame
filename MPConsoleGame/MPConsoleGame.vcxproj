@@ -136,9 +136,14 @@
   <ItemGroup>
     <ClCompile Include="src\ConsoleMng.cpp" />
     <ClCompile Include="src\MPConsoleGame.cpp" />
+    <ClCompile Include="src\SpriteLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\ConsoleMng.h" />
+    <ClInclude Include="includes\SpriteLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\TestSprite.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

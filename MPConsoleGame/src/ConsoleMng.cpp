@@ -1,30 +1,80 @@
 #include <ConsoleMng.h>
+#include <SpriteLoader.h>
 
-consoleDimensions GetConsoleSize() {
+void ConsoleManager::getConsoleSize() {
 	//Console screen buffer info is a struct (for rememberance sake)
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	consoleDimensions returnVar;
 
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	returnVar.columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-	returnVar.rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+	m_cDimensions.columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	m_cDimensions.rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-	return returnVar;
+	
 }
 
-void initializeConsoleBuffer(consoleDimensions inConsoleSize, std::vector<std::vector<char>>)
+
+
+void ConsoleManager::initializeConsoleBuffer()
 {
 
-	for (int rowsToGo = 0; rowsToGo < inConsoleSize.rows; ++rowsToGo)
+	for (int rowsToGo = 0; rowsToGo < m_cDimensions.rows; ++rowsToGo)
 	{
+		vecChar addition;
+		m_cBuffer.push_back(addition);
 
-		for (int columnsToGo = 0; columnsToGo < inConsoleSize.columns; ++columnsToGo)
+		for (int columnsToGo = 0; columnsToGo < m_cDimensions.columns; ++columnsToGo)
 		{
 
+			char addedChar = (char) ((int)'A' + rowsToGo);
 
+			m_cBuffer.at(rowsToGo).push_back(addedChar);
 
 		}
 
 	}
+
+}
+
+
+
+void ConsoleManager::printConsoleBuffer()
+{
+
+	for (int rowsToGo = 0; rowsToGo < m_cBuffer.size(); ++rowsToGo )
+	{
+
+		for (int columnsToGo = 0; columnsToGo < m_cBuffer.at(0).size(); ++columnsToGo)
+		{
+
+			std::cout << m_cBuffer.at(rowsToGo).at(columnsToGo);
+
+		}
+
+		std::cout << std::endl;
+
+	}
+
+}
+
+void ConsoleManager::placeGameObject(int posX, int posY, int objectID)
+{
+
+
+
+}
+
+ConsoleManager::ConsoleManager()
+{
+
+	getConsoleSize();
+
+	initializeConsoleBuffer();
+
+}
+
+ConsoleManager::~ConsoleManager()
+{
+
+
 
 }

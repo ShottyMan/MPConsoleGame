@@ -9,16 +9,14 @@
 #include <ConsoleMng.h>
 #include <vector>
 
+
 int main()
 {
-    consoleDimensions sizeOfConsole = GetConsoleSize();
-
-    printf("columns: %d\n", sizeOfConsole.columns);
-    printf("rows: %d\n", sizeOfConsole.rows);
-
-    std::vector<std::vector<char>> consoleCoord;
-
+    ConsoleManager screen;
     
 
+    screen.printConsoleBuffer();
+    
+    return 0;
     
 }

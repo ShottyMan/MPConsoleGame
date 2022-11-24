@@ -134,16 +134,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ConsoleMng.cpp" />
-    <ClCompile Include="src\MPConsoleGame.cpp" />
-    <ClCompile Include="src\SpriteLoader.cpp" />
+    <Text Include="resources\Sprite0.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="includes\ConsoleMng.h" />
-    <ClInclude Include="includes\SpriteLoader.h" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Menus.cpp" />
+    <ClCompile Include="src\PlayerPawn.cpp" />
+    <ClCompile Include="src\ScreenManager.cpp" />
+    <ClCompile Include="src\SelectGameMode.cpp" />
+    <ClCompile Include="src\SinglePlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resources\TestSprite.txt" />
+    <ClInclude Include="includes\Menus.h" />
+    <ClInclude Include="includes\PlayerPawn.h" />
+    <ClInclude Include="includes\ScreenManager.h" />
+    <ClInclude Include="includes\SelectGameMode.h" />
+    <ClInclude Include="includes\SinglePlayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

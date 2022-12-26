@@ -7,12 +7,6 @@
 
 
 
-//investigate this further
-//https://stackoverflow.com/questions/3471520/how-to-remove-scrollbars-in-console-windows-c
-
-
-
-
 
 int main()
 {

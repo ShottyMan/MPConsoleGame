@@ -40,6 +40,8 @@ public:
 
 	void stringToConsole(std::string input, int row, int column);
 
+	void stringDelToConsole(std::string input, int row, int column, char replacement=' ');
+
 	void clearBuffer();
 
 };

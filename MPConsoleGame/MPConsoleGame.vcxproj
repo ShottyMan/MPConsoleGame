@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Menus.cpp" />
+    <ClCompile Include="src\Pawn.cpp" />
     <ClCompile Include="src\PlayerPawn.cpp" />
     <ClCompile Include="src\ScreenManager.cpp" />
     <ClCompile Include="src\SelectGameMode.cpp" />
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\Menus.h" />
+    <ClInclude Include="includes\Pawn.h" />
     <ClInclude Include="includes\PlayerPawn.h" />
     <ClInclude Include="includes\ScreenManager.h" />
     <ClInclude Include="includes\SelectGameMode.h" />

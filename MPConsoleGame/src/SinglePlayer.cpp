@@ -1,4 +1,5 @@
 #include <SinglePlayer.h>
+#include <conio.h>
 
 
 void singlePlayerGame(ScreenManager* targetConsole)
@@ -10,7 +11,7 @@ void singlePlayerGame(ScreenManager* targetConsole)
 	for (int seconds = 0; seconds < 5; ++seconds)
 	{
 
-		targetConsole->placePixel(6, 54, '5' - seconds);
+		targetConsole->placePixel(6, 54, '5' - (seconds + 1));
 
 		targetConsole->outputConsoleBuffer();
 
@@ -25,7 +26,14 @@ void singlePlayerGame(ScreenManager* targetConsole)
 	while (gameRun)
 	{
 
+		if (GetKeyState(VK_ESCAPE) & 0x8000)
+		{
+			gameRun = false;
+		}
 
+		
+
+		Sleep(REFRESH_TIME);
 
 	}
 

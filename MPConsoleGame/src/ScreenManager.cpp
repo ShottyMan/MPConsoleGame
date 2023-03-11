@@ -168,7 +168,7 @@ void ScreenManager::stringToConsole(std::string input, int row, int column)
 
 }
 
-void ScreenManager::stringDelToConsole(std::string input, int row, int column, char replacement=' ')
+void ScreenManager::stringDelToConsole(std::string input, int row, int column, char replacement)
 {
 	int s_Column = column;
 	for (int index = 0; index < input.size(); ++index)

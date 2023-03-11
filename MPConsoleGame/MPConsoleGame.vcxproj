@@ -137,6 +137,7 @@
     <Text Include="resources\Sprite0.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\LogSystem.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Menus.cpp" />
     <ClCompile Include="src\Pawn.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="src\SinglePlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes\LogSystem.h" />
     <ClInclude Include="includes\Menus.h" />
     <ClInclude Include="includes\Pawn.h" />
     <ClInclude Include="includes\PlayerPawn.h" />

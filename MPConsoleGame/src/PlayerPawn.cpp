@@ -34,17 +34,17 @@ float PlayerPawn::getPlayerSpeed()
 
 }
 
-void PlayerPawn::setPlayerSpeed(float input)
+void PlayerPawn::setPlayerSpeed(float inputSpeed)
 {
 
-	m_playerSpeed = input;
+	m_playerSpeed = inputSpeed;
 
 }
 
-void PlayerPawn::setPlayerHealth(unsigned short input)
+void PlayerPawn::setPlayerHealth(unsigned short inputHealth)
 {
 
-	m_playerHealth = input;
+	m_playerHealth = inputHealth;
 
 }
 

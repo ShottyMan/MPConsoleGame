@@ -19,6 +19,8 @@ int main()
 	//singlePlayerGame(&console);
 
 	//mainMenu();
+
+	LogSystem.WriteLine(L"TestLog");
 	
 	std::cout << "Game has ended I hope you enjoyed!" << std::endl;
 

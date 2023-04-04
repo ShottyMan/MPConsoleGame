@@ -4,7 +4,129 @@
 #include <string.h>
 #include <ctime>
 #include <sstream>
+#include <stdexcept>
 #include <iomanip>
+
+
+std::wstring createLogName(time_t* inTime, std::string inputString = "Log")
+{
+	std::tm tm;
+
+	//Added for debugging Reasons
+
+	time(inTime);
+
+	errno_t timeSuccess = localtime_s(&tm, inTime);
+	// 
+	//Convertion since string stream is only a regular string and not a wide string
+
+	std::stringstream temp;
+
+	temp << inputString << std::put_time(&tm, "-%H-%M-%S--%m-%d-%Y") << ".txt";
+
+	size_t stringLenght = sizeof(temp.str()) / sizeof(temp.str()[0]);
+
+	std::wstring tempString(L"#", stringLenght);
+
+	//&tempString[0], temp.str().c_str(), stringLenght;//
+
+	size_t tempOutSize;
+
+	mbstowcs_s(&tempOutSize, &tempString[0], stringLenght, temp.str().c_str(), stringLenght);
+
+	return tempString;
+
+}
+
+void LogDirCreation(std::wstring LogDirectory, time_t *inTime, std::wstring *LogDirectoryFileName)
+{
+
+	time(inTime);
+
+	BOOL DirectoryCreationSuccess = CreateDirectory(LogDirectory.c_str(), NULL);
+
+	if (DirectoryCreationSuccess && *inTime)
+	{
+
+
+		*LogDirectoryFileName = createLogName(inTime);
+
+	}
+	else
+	{
+		std::cout << "Directory creation Error: " << GetLastError() << " writting log in base directory (Press Enter to continue)" << " or an error initializing the time." << std::endl;
+		std::cin.get();
+		SetLastError(0);
+
+	}
+
+}
+
+std::wstring RetreivingCWD(std::wstring outDirectory, std::wstring inputDirectoryName)
+{
+
+	LPWSTR buffer = new WCHAR[256];
+
+	GetCurrentDirectory(256, buffer);
+
+	{
+		int bufferIndex = 0;
+
+		while (bufferIndex < 256)
+		{
+			if (*(buffer + bufferIndex) == '\0')
+			{
+
+				break;
+
+			}
+			outDirectory += *(buffer + bufferIndex);
+
+			bufferIndex++;
+
+		}
+
+		std::wcout << outDirectory << "\n" << std::endl;
+
+
+	}
+
+	delete[] buffer;
+
+	outDirectory.append(L"\\");
+	outDirectory.append(inputDirectoryName);
+
+}
+
+std::wstring TimeString()
+{
+
+	std::stringstream timeString;
+
+	std::time_t timeType;
+
+	time(&timeType);
+
+	std::tm tm;
+
+	errno_t timeSuccess = localtime_s(&tm, &timeType);
+	
+	timeString << std::put_time(&tm, "(%H:%M:%S)");
+
+	size_t stringLenght = timeString.str().size() + 1;
+
+	std::wstring outString(L"#", stringLenght);
+
+	size_t tempOutSize;
+
+	mbstowcs_s(&tempOutSize, &outString[0], stringLenght, timeString.str().c_str(), stringLenght);
+
+
+	outString[stringLenght - 1] = L' ';
+
+	return outString;
+
+}
 
 /*
 * @brief Constructer for Log
@@ -20,6 +142,9 @@ LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::w
 {
 	HANDLE windowsHandleFileFind;
 	WIN32_FIND_DATAW fileData;
+
+	windowsHandleFileFind = FindFirstFile(logDirectory.c_str(), &fileData);
+	std::time_t time;
 
 	/*
 	* This section is made for filling in all of the variables that are not specified by the user 
@@ -63,7 +188,6 @@ LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::w
 		logDirectory.append(logDirName);
 
 		windowsHandleFileFind = FindFirstFile(logDirectory.c_str(), &fileData);
-		std::time_t time = std::time(nullptr);
 
 		if (windowsHandleFileFind == INVALID_HANDLE_VALUE)
 		{
@@ -73,84 +197,39 @@ LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::w
 
 			SetLastError(0);
 
-			std::wcout << logDirectory.c_str() << std::endl;
+			//For debug purposes
+			//std::wcout << logDirectory.c_str() << std::endl;
 			
-			
-			//tempNewDir.append(L"\\\\?\\");
-			
-			BOOL DirectoryCreationSuccess = CreateDirectory(logDirectory.c_str(), NULL);
-
-			if(DirectoryCreationSuccess && time)
-			{
-				std::tm tm;
-				
-				//Added for debugging Reasons
-				errno_t timeSuccess = localtime_s(&tm ,&time);
-
-				//Convertion since string stream is only a regular string and not a wide string
-
-				std::stringstream temp;
-
-				temp << "Log-" << std::put_time(&tm, "%H-%M-%S--%m-%d-%Y") << ".txt";
-
-				size_t stringLenght = sizeof(temp.str()) / sizeof(temp.str()[0]);
-
-				std::wstring tempString(L"#", stringLenght);
-
-				//&tempString[0], temp.str().c_str(), stringLenght;//
-
-				size_t tempOutSize;
-
-				mbstowcs_s(&tempOutSize, &tempString[0], stringLenght, temp.str().c_str(), stringLenght);
-
-				LogSystem::logFileName = tempString;
-			
-			}
-			else
-			{
-				std::cout << "Directory creation Error: " << GetLastError() << " writting log in base directory (Press Enter to continue)" << std::endl;
-				std::cin.get();
-				SetLastError(0);
-
-			}
+			LogDirCreation(logDirectory, &time, &logDirName);
 
 		}
-		else if (time)
+		else
 		{
-			std::tm tm;
 
-			//Added for debugging Reasons
-			errno_t timeSuccess = localtime_s(&tm, &time);
-
-			//Convertion since string stream is only a regular string and not a wide string
-
-			std::stringstream temp;
-
-			temp << "Log-" << std::put_time(&tm, "%H-%M-%S--%m-%d-%Y") << ".txt";
-
-			size_t stringLenght = sizeof(temp.str()) / sizeof(temp.str()[0]);
-
-			std::wstring tempString(L"#", stringLenght);
-
-			size_t tempOutSize;
-
-			mbstowcs_s(&tempOutSize, &tempString[0], stringLenght, temp.str().c_str(), stringLenght);
-
-			LogSystem::logFileName = tempString;
-
+			LogSystem::logFileName = createLogName(&time);
 
 		}
-
 
 
 		FindClose(windowsHandleFileFind);
 	}
-	/*else if ()
+	else if (logFileName == L" ")
+	{
+
+		LogDirCreation(logDirectory, &time, &logDirName);
+
+	}
+	else if (logDirectory == L" ")
 	{
 
 
 	}
-	*/
+	else
+	{
+
+
+	}
+
 
 	LogSystem::logFileDirectory = logDirectory + L"\\";
 	LogSystem::logFileDirectory.append(LogSystem::logFileName);
@@ -170,26 +249,9 @@ LogSystem::~LogSystem()
 
 void LogSystem::WriteLine(std::wstring inputString, logLevels messageType)
 {
-	std::stringstream timeString;
-
-	std::time_t time = std::time(nullptr);
-	std::tm tm;
-	errno_t timeSuccess = localtime_s(&tm, &time);
-
-	timeString << std::put_time(&tm, "(%H:%M:%S)");
-
-	size_t stringLenght = timeString.str().size() + 1;
-
-	std::wstring outString(L"#", stringLenght);
-
-	size_t tempOutSize;
-
-	mbstowcs_s(&tempOutSize, &outString[0], stringLenght, timeString.str().c_str(), stringLenght);
-
-
-	outString[stringLenght - 1] = L' ';
 	
-
+	
+	std::wstring outString = TimeString();
 
 	switch (messageType)
 	{

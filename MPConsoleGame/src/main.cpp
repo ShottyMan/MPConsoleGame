@@ -10,7 +10,7 @@
 
 int main()
 {
-	LogSystem LogSystem;
+	LogSystem LogSystem(L"C:\\Users\\Ekha7\\Desktop\\logFiles", L"TestName");
 
 	//mainMenu();
 

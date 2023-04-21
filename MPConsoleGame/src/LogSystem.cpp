@@ -62,7 +62,7 @@ void LogDirCreation(std::wstring LogDirectory, time_t *inTime, std::wstring *Log
 
 }
 
-std::wstring RetreivingCWD(std::wstring outDirectory, std::wstring inputDirectoryName)
+std::wstring LogFolderNamer(std::wstring outDirectory, std::wstring inputDirectoryName)
 {
 
 	LPWSTR buffer = new WCHAR[256];
@@ -96,6 +96,42 @@ std::wstring RetreivingCWD(std::wstring outDirectory, std::wstring inputDirector
 	outDirectory.append(L"\\");
 	outDirectory.append(inputDirectoryName);
 
+	return outDirectory;
+
+}
+
+std::wstring GetCWD()
+{
+	std::wstring outDirectory;
+
+	LPWSTR buffer = new WCHAR[256];
+
+	GetCurrentDirectory(256, buffer);
+
+	{
+		int bufferIndex = 0;
+
+		while (bufferIndex < 256)
+		{
+			if (*(buffer + bufferIndex) == '\0')
+			{
+
+				break;
+
+			}
+			outDirectory += *(buffer + bufferIndex);
+
+			bufferIndex++;
+
+		}
+
+		std::wcout << outDirectory << "\n" << std::endl;
+
+
+	}
+
+	return outDirectory;
+
 }
 
 std::wstring TimeString()
@@ -128,6 +164,8 @@ std::wstring TimeString()
 
 }
 
+
+
 /*
 * @brief Constructer for Log
 * 
@@ -138,12 +176,11 @@ std::wstring TimeString()
 */
 
 
-LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::wstring logDirName) //Constructer for the logger Class, it is used to find the directory and initialize the fstream.
+LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName) //Constructer for the logger Class, it is used to find the directory and initialize the fstream.
 {
-	HANDLE windowsHandleFileFind;
+	std::wstring defaultLogDirName = L"Logs";
+	HANDLE windowsHandleFileFind = NULL;
 	WIN32_FIND_DATAW fileData;
-
-	windowsHandleFileFind = FindFirstFile(logDirectory.c_str(), &fileData);
 	std::time_t time;
 
 	/*
@@ -156,36 +193,7 @@ LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::w
 		logFileName.clear();
 		logDirectory.clear();
 
-		LPWSTR buffer = new WCHAR[256];
-		
-		GetCurrentDirectory(256, buffer);
-
-		{
-			int bufferIndex = 0;
-
-			while (bufferIndex < 256)
-			{
-				if (*(buffer + bufferIndex) == '\0')
-				{
-
-					break;
-
-				}
-				logDirectory += *(buffer+bufferIndex);
-
-				bufferIndex++;
-
-			}
-
-			std::wcout << logDirectory << "\n" << std::endl;
-			   
-
-		}
-
-		delete[] buffer;
-		
-		logDirectory.append(L"\\");
-		logDirectory.append(logDirName);
+		logDirectory = LogFolderNamer(logDirectory, defaultLogDirName);
 
 		windowsHandleFileFind = FindFirstFile(logDirectory.c_str(), &fileData);
 
@@ -200,7 +208,7 @@ LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::w
 			//For debug purposes
 			//std::wcout << logDirectory.c_str() << std::endl;
 			
-			LogDirCreation(logDirectory, &time, &logDirName);
+			LogDirCreation(logDirectory, &time, &logFileName);
 
 		}
 		else
@@ -211,17 +219,57 @@ LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::w
 		}
 
 
-		FindClose(windowsHandleFileFind);
+		
 	}
-	else if (logFileName == L" ")
+	else if (logFileName != L" " && logDirectory != L" ")
 	{
 
-		LogDirCreation(logDirectory, &time, &logDirName);
+		windowsHandleFileFind = FindFirstFile(logDirectory.c_str(), &fileData);
 
+		if (windowsHandleFileFind == INVALID_HANDLE_VALUE)
+		{
+
+			LogDirCreation(logDirectory, &time, &logFileName);
+
+		}
+		/*
+		else
+		{
+
+			logDirectory = GetCWD();
+
+			LogDirCreation(logDirectory, &time, &logFileName);
+
+		}
+		*/
 	}
-	else if (logDirectory == L" ")
+	else if (logFileName != L" ")
 	{
 
+		LogDirCreation(logDirectory, &time, &logFileName);
+
+	}
+	else if (logDirectory != L" ")
+	{
+
+		logDirectory = LogFolderNamer(logDirectory, defaultLogDirName);
+
+		windowsHandleFileFind = FindFirstFile(logDirectory.c_str(), &fileData);
+
+		if (windowsHandleFileFind == INVALID_HANDLE_VALUE)
+		{
+
+			LogDirCreation(logDirectory, &time, &logFileName);
+
+		}
+		else
+		{
+
+			logDirectory = GetCWD();
+
+			LogDirCreation(logDirectory, &time, &logFileName);
+
+		}
 
 	}
 	else
@@ -230,9 +278,14 @@ LogSystem::LogSystem(std::wstring logDirectory, std::wstring logFileName, std::w
 
 	}
 
+	FindClose(windowsHandleFileFind);
 
-	LogSystem::logFileDirectory = logDirectory + L"\\";
-	LogSystem::logFileDirectory.append(LogSystem::logFileName);
+	std::wstring tempDirString = logDirectory;
+
+	tempDirString.append(L"\\");
+
+	LogSystem::logFileDirectory = tempDirString;
+	LogSystem::logFileDirectory.append(logFileName);
 
 	LogSystem::logFile.open(LogSystem::logFileDirectory, std::ios::out);
 	

@@ -22,7 +22,7 @@ public:
 
 	
 
-	LogSystem(std::wstring logDirectory = L" ", std::wstring logFileName = L" ", std::wstring logDirName = L"Logs");
+	LogSystem(std::wstring logDirectory = L" ", std::wstring logFileName = L" ");
 	void WriteLine(std::wstring inputString, logLevels messageType = logLevels::LVL_INFO);
 	~LogSystem();
 

@@ -1,7 +1,7 @@
 #include <SelectGameMode.h>
 #include <Menus.h>
 
-void selectGameMode(ScreenManager* targetConsole)
+void selectGameMode(ScreenManager* targetConsole, LogSystem* logClass)
 {
 
 	targetConsole->clearBuffer();

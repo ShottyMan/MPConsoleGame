@@ -1,5 +1,6 @@
 #pragma once
 #include <Pawn.h>
+#include <LogSystem.h>
 
 class PlayerPawn : Pawn {
 
@@ -11,7 +12,7 @@ private:
 
 public:
 
-	PlayerPawn(ScreenManager* targetConsole, std::string pawnSprite, int posX, int posY, unsigned short startHealth, float playerSpeed, float refreshTime);
+	PlayerPawn(ScreenManager* targetConsole, std::string pawnSprite, int posX, int posY, unsigned short startHealth, float playerSpeed, unsigned int refreshTime, LogSystem*);
 	~PlayerPawn();
 	
 	float getPlayerSpeed();

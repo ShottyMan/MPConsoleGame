@@ -1,6 +1,8 @@
 #include <Pawn.h>
 
-Pawn::Pawn(ScreenManager* targetConsole, std::string pawnSprite, int posX, int posY)
+
+
+Pawn::Pawn(ScreenManager* targetConsole, std::string pawnSprite, int posX, int posY, LogSystem* LogClass)
 {
 
 	m_tConsole = targetConsole;
@@ -24,12 +26,17 @@ void Pawn::setSprite(std::string pawnSprite)
 
 void Pawn::move(int x, int y)
 {
+	std::stringstream ss;
+
 	m_tConsole->stringDelToConsole(m_sprite, m_posX, m_posY);
 
 	m_posX += x;
 	m_posY += y;
 
-	m_tConsole->stringToConsole(m_sprite, x, y);
+	int integerX = (int)floor(m_posX);
+	int integerY = (int)floor(m_posY);
+
+	m_tConsole->stringToConsole(m_sprite, integerX, integerY);
 
 }
 
@@ -40,8 +47,12 @@ void Pawn::place(int x, int y)
 	m_posX = x;
 	m_posY = y;
 
-	int currentColumn = 0;
+	//Not sure why this was here I am keeping it just in case...
+	//int currentColumn = 0;
 
-	m_tConsole->stringToConsole(m_sprite, x, y);
+	int integerX = (int)floor(m_posX);
+	int integerY = (int)floor(m_posY);
+
+	m_tConsole->stringToConsole(m_sprite, integerX, integerY);
 
 }

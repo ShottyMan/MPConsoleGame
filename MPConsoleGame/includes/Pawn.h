@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <ScreenManager.h>
+#include <LogSystem.h>
 
 class Pawn
 {
@@ -8,13 +9,13 @@ class Pawn
 protected:
 
 	std::string m_sprite;
-	int m_posX;
-	int m_posY;
+	double m_posX;
+	double m_posY;
 	ScreenManager* m_tConsole;
 
 public:
 
-	Pawn(ScreenManager* /*Pointer to parent console*/, std::string /*Sprite*/, int posX, int posY);
+	Pawn(ScreenManager* /*Pointer to parent console*/, std::string /*Sprite*/, int posX, int posY, LogSystem*);
 	~Pawn();
 
 	//Moves pawn in each direction by the supplied values.

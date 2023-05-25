@@ -1,7 +1,7 @@
 #include <Menus.h>
 
 
-void mainMenu()
+void mainMenu(LogSystem* LogClass)
 {
 
 
@@ -46,10 +46,14 @@ void mainMenu()
 			{
 
 			case 1:
-				selectGameMode(&mainScreen);
+
+				selectGameMode(&mainScreen, LogClass);
+
 				break;
 			case 2:
+
 				exit = true;
+
 				break;
 
 			}

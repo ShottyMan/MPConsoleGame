@@ -1,6 +1,6 @@
 #include <ScreenManager.h>
-#include <chrono>
-#include <stdlib.h>
+//#include <chrono>
+//#include <stdlib.h>
 #include <Menus.h>
 #include <SinglePlayer.h>
 #include <LogSystem.h>
@@ -10,17 +10,19 @@
 
 int main()
 {
-	LogSystem LogSystem(L"C:\\Users\\Ekha7\\Desktop\\logFiles", L"TestName");
+	LogSystem LogSystem;
 
 	//mainMenu();
 
-	//ScreenManager console;
+	LogSystem.WriteLine(L"Game Started!");
 
-	//singlePlayerGame(&console);
 
-	//mainMenu();
+	ScreenManager console;
 
-	LogSystem.WriteLine(L"TestLog");
+	singlePlayerGame(&console);
+
+
+	
 	
 	std::cout << "Game has ended I hope you enjoyed!" << std::endl;
 

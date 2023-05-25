@@ -1,7 +1,7 @@
 #include <PlayerPawn.h>
+#include <LogSystem.h>
 
-PlayerPawn::PlayerPawn(ScreenManager* targetConsole, std::string pawnSprite, int posX, int posY, unsigned short startHealth, float playerSpeed, float refreshTime) :
-	Pawn(targetConsole, pawnSprite, posX, posY)
+PlayerPawn::PlayerPawn(ScreenManager* targetConsole, std::string pawnSprite, int posX, int posY, unsigned short startHealth, float playerSpeed, unsigned int refreshTime, LogSystem* logClass) : Pawn(targetConsole, pawnSprite, posX, posY, LogClass)
 {
 
 	m_playerHealth = startHealth;
@@ -51,28 +51,36 @@ void PlayerPawn::setPlayerHealth(unsigned short inputHealth)
 void PlayerPawn::playerMoveUp()
 {
 
+	m_posY = m_posY + (m_refreshTime * m_playerSpeed);
 
+	move(m_posX, m_posY);
 
 }
 
 void PlayerPawn::playerMoveDown()
 {
 
+	m_posY = m_posY - (m_refreshTime * m_playerSpeed);
 
+	move(m_posX, m_posY);
 
 }
 
 void PlayerPawn::playerMoveLeft()
 {
 
+	m_posX = m_posX - (m_refreshTime * m_playerSpeed);
 
+	move(m_posX, m_posY);
 
 }
 
 void PlayerPawn::playerMoveRight()
 {
 
+	m_posX = m_posX + (m_refreshTime * m_playerSpeed);
 
+	move(m_posX, m_posY);
 
 }
 

@@ -1,8 +1,9 @@
 #include <SinglePlayer.h>
 #include <conio.h>
+#include <PlayerPawn.h>
 
 
-void singlePlayerGame(ScreenManager* targetConsole)
+void singlePlayerGame(ScreenManager* targetConsole, LogSystem* LogClass)
 {
 
 	targetConsole->stringToConsole("Avoid red icons using arrow keys", 5, 35);
@@ -23,6 +24,8 @@ void singlePlayerGame(ScreenManager* targetConsole)
 
 	bool gameRun = true;
 
+	PlayerPawn FirstPlayer(targetConsole, "/\\", 0, 0, 5, 1, REFRESH_TIME, LogClass);
+
 	while (gameRun)
 	{
 
@@ -32,7 +35,8 @@ void singlePlayerGame(ScreenManager* targetConsole)
 		}
 
 		
-
+		targetConsole->outputConsoleBuffer();
+		
 		Sleep(REFRESH_TIME);
 
 	}
